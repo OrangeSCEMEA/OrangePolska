@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orange Polska Mockup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        header {
+            background-color: #ff7900;
+            color: white;
+            padding: 1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 0.5em;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5em;
+        }
+        main {
+            padding: 2em;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        #userInfo {
+            color: white;
+            font-size: 0.9em;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        input {
+            padding: 5px;
+        }
+        button {
+            background-color: #ff7900;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Orange Polska</h1>
+        <div id="userInfo"></div>
+    </header>
+    <nav>
+        <a href="#home">Strona główna</a>
+        <a href="#oferty">Oferty</a>
+        <a href="#uslugi">Usługi</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="#login">Logowanie</a>
+    </nav>
+    <main id="content">
+        <!-- Content will be dynamically loaded here -->
+    </main>
+    <footer>
+        &copy; 2025 Orange Polska. Wszelkie prawa zastrzeżone.
+    </footer>
+
+    <script>
+        const content = document.getElementById('content');
+        const userInfo = document.getElementById('userInfo');
+        const pages = {
+            home: `
+                <h2>Witaj w Orange Polska</h2>
+                <p>Jesteśmy wiodącym dostawcą usług telekomunikacyjnych w Polsce. Oferujemy szeroki zakres usług, w tym telefony komórkowe, internet szerokopasmowy i telewizję.</p>
+            `,
+            oferty: `
+                <h2>Nasze oferty</h2>
+                <ul>
+                    <li>Plan komórkowy "Wszystko w jednym"</li>
+                    <li>Internet światłowodowy do 1 Gb/s</li>
+                    <li>Pakiet TV z ponad 200 kanałami</li>
+                </ul>
+            `,
+            uslugi: `
+                <h2>Usługi</h2>
+                <p>Świadczymy usługi najwyższej jakości, w tym:</p>
+                <ul>
+                    <li>Szybki internet mobilny</li>
+                    <li>Niezawodna sieć 5G</li>
+                    <li>Profesjonalna obsługa klienta</li>
+                </ul>
+            `,
+            kontakt: `
+                <h2>Kontakt</h2>
+                <p>Skontaktuj się z nami:</p>
+                <p>Telefon: 123 456 789</p>
+                <p>Email: kontakt@orange.pl</p>
+                <p>Adres: ul. Główna 1, 00-001 Warszawa</p>
+            `,
+            login: `
+                <h2>Logowanie</h2>
+                <form id="loginForm">
+                    <input type="email" id="email" placeholder="Email" required>
+                    <input type="password" id="password" placeholder="Hasło" required>
+                    <button type="submit">Zaloguj</button>
+                </form>
+            `
+        };
+
+        function loadContent(page) {
+            content.innerHTML = pages[page] || pages.home;
+            if (page === 'login') {
+                document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            }
+        }
+
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadContent(e.target.getAttribute('href').slice(1));
+            });
+        });
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const validUsers = ['customer1@orange.com', 'customer2@orange.com', 'customer3@orange.com'];
+            
+            if (validUsers.includes(email) && email === password) {
+                userInfo.textContent = email;
+                loadContent('home');
+            } else {
+                alert('Nieprawidłowy email lub hasło');
+            }
+        }
+
+        loadContent('home');
+    </script>
+</body>
+</html>
