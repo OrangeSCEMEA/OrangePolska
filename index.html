@@ -65,24 +65,36 @@
             padding: 10px;
             cursor: pointer;
         }
+        #langButtons {
+            display: flex;
+            gap: 10px;
+        }
+        #langButtons button {
+            padding: 5px 10px;
+            font-size: 0.8em;
+        }
     </style>
 </head>
 <body>
     <header>
+        <div id="langButtons">
+            <button onclick="changeLanguage('pl')">PL</button>
+            <button onclick="changeLanguage('en')">EN</button>
+        </div>
         <h1>Orange Polska</h1>
         <div id="userInfo"></div>
     </header>
-    <nav>
-        <a href="#home">Strona główna</a>
-        <a href="#oferty">Oferty</a>
-        <a href="#uslugi">Usługi</a>
-        <a href="#kontakt">Kontakt</a>
-        <a href="#login">Logowanie</a>
+    <nav id="nav">
+        <a href="#home" data-pl="Strona główna" data-en="Home">Strona główna</a>
+        <a href="#oferty" data-pl="Oferty" data-en="Offers">Oferty</a>
+        <a href="#uslugi" data-pl="Usługi" data-en="Services">Usługi</a>
+        <a href="#kontakt" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+        <a href="#login" data-pl="Logowanie" data-en="Login">Logowanie</a>
     </nav>
     <main id="content">
         <!-- Content will be dynamically loaded here -->
     </main>
-    <footer>
+    <footer id="footer">
         &copy; 2025 Orange Polska. Wszelkie prawa zastrzeżone.
     </footer>
 
@@ -90,46 +102,94 @@
         const content = document.getElementById('content');
         const userInfo = document.getElementById('userInfo');
         const pages = {
-            home: `
-                <h2>Witaj w Orange Polska</h2>
-                <p>Jesteśmy wiodącym dostawcą usług telekomunikacyjnych w Polsce. Oferujemy szeroki zakres usług, w tym telefony komórkowe, internet szerokopasmowy i telewizję.</p>
-            `,
-            oferty: `
-                <h2>Nasze oferty</h2>
-                <ul>
-                    <li>Plan komórkowy "Wszystko w jednym"</li>
-                    <li>Internet światłowodowy do 1 Gb/s</li>
-                    <li>Pakiet TV z ponad 200 kanałami</li>
-                </ul>
-            `,
-            uslugi: `
-                <h2>Usługi</h2>
-                <p>Świadczymy usługi najwyższej jakości, w tym:</p>
-                <ul>
-                    <li>Szybki internet mobilny</li>
-                    <li>Niezawodna sieć 5G</li>
-                    <li>Profesjonalna obsługa klienta</li>
-                </ul>
-            `,
-            kontakt: `
-                <h2>Kontakt</h2>
-                <p>Skontaktuj się z nami:</p>
-                <p>Telefon: 123 456 789</p>
-                <p>Email: kontakt@orange.pl</p>
-                <p>Adres: ul. Główna 1, 00-001 Warszawa</p>
-            `,
-            login: `
-                <h2>Logowanie</h2>
-                <form id="loginForm">
-                    <input type="email" id="email" placeholder="Email" required>
-                    <input type="password" id="password" placeholder="Hasło" required>
-                    <button type="submit">Zaloguj</button>
-                </form>
-            `
+            home: {
+                pl: `
+                    <h2>Witaj w Orange Polska</h2>
+                    <p>Jesteśmy wiodącym dostawcą usług telekomunikacyjnych w Polsce. Oferujemy szeroki zakres usług, w tym telefony komórkowe, internet szerokopasmowy i telewizję.</p>
+                `,
+                en: `
+                    <h2>Welcome to Orange Polska</h2>
+                    <p>We are a leading telecommunications provider in Poland. We offer a wide range of services, including mobile phones, broadband internet, and television.</p>
+                `
+            },
+            oferty: {
+                pl: `
+                    <h2>Nasze oferty</h2>
+                    <ul>
+                        <li>Plan komórkowy "Wszystko w jednym"</li>
+                        <li>Internet światłowodowy do 1 Gb/s</li>
+                        <li>Pakiet TV z ponad 200 kanałami</li>
+                    </ul>
+                `,
+                en: `
+                    <h2>Our Offers</h2>
+                    <ul>
+                        <li>Mobile plan "All in One"</li>
+                        <li>Fiber internet up to 1 Gb/s</li>
+                        <li>TV package with over 200 channels</li>
+                    </ul>
+                `
+            },
+            uslugi: {
+                pl: `
+                    <h2>Usługi</h2>
+                    <p>Świadczymy usługi najwyższej jakości, w tym:</p>
+                    <ul>
+                        <li>Szybki internet mobilny</li>
+                        <li>Niezawodna sieć 5G</li>
+                        <li>Profesjonalna obsługa klienta</li>
+                    </ul>
+                `,
+                en: `
+                    <h2>Services</h2>
+                    <p>We provide high-quality services, including:</p>
+                    <ul>
+                        <li>Fast mobile internet</li>
+                        <li>Reliable 5G network</li>
+                        <li>Professional customer service</li>
+                    </ul>
+                `
+            },
+            kontakt: {
+                pl: `
+                    <h2>Kontakt</h2>
+                    <p>Skontaktuj się z nami:</p>
+                    <p>Telefon: 123 456 789</p>
+                    <p>Email: kontakt@orange.pl</p>
+                    <p>Adres: ul. Główna 1, 00-001 Warszawa</p>
+                `,
+                en: `
+                    <h2>Contact</h2>
+                    <p>Get in touch with us:</p>
+                    <p>Phone: 123 456 789</p>
+                    <p>Email: contact@orange.pl</p>
+                    <p>Address: 1 Main St, 00-001 Warsaw</p>
+                `
+            },
+            login: {
+                pl: `
+                    <h2>Logowanie</h2>
+                    <form id="loginForm">
+                        <input type="email" id="email" placeholder="Email" required>
+                        <input type="password" id="password" placeholder="Hasło" required>
+                        <button type="submit">Zaloguj</button>
+                    </form>
+                `,
+                en: `
+                    <h2>Login</h2>
+                    <form id="loginForm">
+                        <input type="email" id="email" placeholder="Email" required>
+                        <input type="password" id="password" placeholder="Password" required>
+                        <button type="submit">Log in</button>
+                    </form>
+                `
+            }
         };
 
+        let currentLanguage = 'pl';
+
         function loadContent(page) {
-            content.innerHTML = pages[page] || pages.home;
+            content.innerHTML = pages[page][currentLanguage] || pages.home[currentLanguage];
             if (page === 'login') {
                 document.getElementById('loginForm').addEventListener('submit', handleLogin);
             }
@@ -152,8 +212,34 @@
                 userInfo.textContent = email;
                 loadContent('home');
             } else {
-                alert('Nieprawidłowy email lub hasło');
+                alert(currentLanguage === 'pl' ? 'Nieprawidłowy email lub hasło' : 'Invalid email or password');
             }
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            updateNavigation();
+            loadContent(getCurrentPage());
+            updateFooter();
+        }
+
+        function updateNavigation() {
+            document.querySelectorAll('nav a').forEach(link => {
+                link.textContent = link.getAttribute(`data-${currentLanguage}`);
+            });
+        }
+
+        function getCurrentPage() {
+            const hash = window.location.hash.slice(1);
+            return hash || 'home';
+        }
+
+        function updateFooter() {
+            const footer = document.getElementById('footer');
+            footer.innerHTML = currentLanguage === 'pl' 
+                ? '&copy; 2025 Orange Polska. Wszelkie prawa zastrzeżone.'
+                : '&copy; 2025 Orange Polska. All rights reserved.';
         }
 
         loadContent('home');
